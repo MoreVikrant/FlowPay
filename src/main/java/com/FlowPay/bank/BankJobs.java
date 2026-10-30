@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 
-@Component// is written in the application.properties
+@Component
 @ConditionalOnProperty(name="app.jobs-enabled",havingValue = "true") // Allows the job to be enabled or disabled through configuration.
 @EnableScheduling
 public class BankJobs {
@@ -21,8 +21,8 @@ public class BankJobs {
         this.service = service;
     }
 
-// tells the spring to run the method after a fixed delay
-    @Scheduled(fixedDelay =2000 )        // adding the delay so that it should look like the real payment happened
+
+    @Scheduled(fixedDelay =2000 )
     public void completeDelayed(){
 
     }
