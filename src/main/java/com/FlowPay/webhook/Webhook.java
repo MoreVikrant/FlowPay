@@ -1,0 +1,35 @@
+package com.FlowPay.webhook;
+
+import com.FlowPay.common.BaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+import java.time.Instant;
+
+@Entity
+@Table(name = "webhooks")
+public class Webhook extends BaseEntity { /// webhook is FlowPay calling the merchant’s server when something happens.
+
+    @Column(nullable = false,length = 48)
+    public String merchantId;
+
+    @Column(nullable = false,length = 48,unique = true)
+    public String eventId;   // event id for the event that merchant will have
+
+    @Column(length = 500)
+    public String url;
+
+    @Column(nullable = false,length = 20)
+    public String status = "PENDING";
+
+    @Column(nullable = false)
+    public int attempts;
+
+    @Column(length =500)
+    public String lastError;
+
+    public Instant nextAttemptAt = Instant.now();
+
+
+}
