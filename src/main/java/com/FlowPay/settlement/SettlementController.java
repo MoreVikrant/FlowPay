@@ -20,8 +20,8 @@ public class SettlementController {
     @PostMapping("/create")
     public Settlement create(
             @RequestHeader("X-Api-Key") String key,
-            @RequestHeader("Idempotency-Key") String ik     // Identifies the logically repeated request
-            ){ // in this case we don't need the dto here because we will directly give the balance to the merchant
+            @RequestHeader("Idempotency-Key") String ik
+            ){
         return service.create(merchants.authenticate(key).id,ik);
     }
 

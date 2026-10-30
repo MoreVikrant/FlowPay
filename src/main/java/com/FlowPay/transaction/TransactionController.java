@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/transactions")
-public class TransactionController { // primarily exposes the transaction history
+public class TransactionController {
 
     private final TransactionService service;
     private final MerchantService merchants;

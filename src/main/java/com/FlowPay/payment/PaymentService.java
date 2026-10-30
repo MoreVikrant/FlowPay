@@ -90,7 +90,7 @@ You don't want the retry to create another payment.     */
         Merchant merchant = merchants.lock(m);
         Payment p = get(m,id);
         if(!p.status.equals("CREATED")) return p;
-        MockBankService.Result result = bank.initiate(p.scenario);  // asking the mock bank to initiate the payment
+        MockBankService.Result result = bank.initiate(p.scenario);
         p.resolvedAt=result.resolvedAt();
         finish(merchant,p,result.status());
         return p;
@@ -101,7 +101,7 @@ You don't want the retry to create another payment.     */
         if(status.equals("SUCCESS")){
             p.fee=fee(p.amount);
             orders.get(m.id,p.orderId).status="PAID";
-            // Now here we want ledger to check the records that is not made yet
+
             ledger.record(m,p.id,"PAYMENT",p.amount-p.fee);
 
         }else if(status.equals("FAILURE")){
@@ -109,7 +109,7 @@ You don't want the retry to create another payment.     */
         }
     }
 
-    @Transactional    // check a pending payment again
+    @Transactional
     public Payment reconcile(String m,String id){
         Merchant merchant = merchants.lock(m);
         Payment p= get(m,id);

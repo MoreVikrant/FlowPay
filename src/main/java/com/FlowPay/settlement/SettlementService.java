@@ -14,7 +14,6 @@ import java.util.List;
 @Service
 public class SettlementService {
 
-    // Settlement means getting the money from Flowpay wallet to merchant
     private final SettlementRepository repo;
     private final MerchantService merchants;
     private final LedgerService ledger;
@@ -39,9 +38,9 @@ public class SettlementService {
         s.id = Ids.next("Settle");
         s.merchantId=m;
         s.idempotencyKey = key;
-        s.amount = merchant.balance;        // Payout everything
+        s.amount = merchant.balance;
         repo.save(s);
-        ledger.record(merchant,s.id,"SETTLEMENT",-s.amount);       // debit the entry in the ledger
+        ledger.record(merchant,s.id,"SETTLEMENT",-s.amount);
         return s;
     }
 

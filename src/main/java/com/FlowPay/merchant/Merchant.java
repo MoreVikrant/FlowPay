@@ -16,7 +16,7 @@ public class Merchant extends BaseEntity {
     @Column(nullable = false,length=160)
     public String email;
 
-    @JsonIgnore    // hides the hash secret from json responses
+    @JsonIgnore
     @Column(nullable = false,length=64)
     public String apiKeyHash;
 

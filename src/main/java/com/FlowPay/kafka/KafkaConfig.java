@@ -10,9 +10,9 @@ import org.springframework.util.backoff.FixedBackOff;
 
 @Configuration
 @ConditionalOnProperty(name ="app.kafka-enabled",havingValue = "true")
-public class KafkaConfig {  //Configuring the Kafka topic and error handler here
+public class KafkaConfig {
 
-    // we cant add the event directly in the kafka we first have to  do the serialization
+
     public static final String Topic="FlowPay.events";
 
     @Bean
@@ -20,12 +20,9 @@ public class KafkaConfig {  //Configuring the Kafka topic and error handler here
         return TopicBuilder.name(Topic).partitions(3).replicas(1).build();
     }
 
-    // Kafka has its on Error Handler
     @Bean
-    DefaultErrorHandler kafkaErrorHandler(){
-        return new DefaultErrorHandler(new FixedBackOff(2000L,FixedBackOff.UNLIMITED_ATTEMPTS));
-        //Unlimited retries also need care: a permanently invalid message can repeatedly fail and block progress
-    }                                                                // Production systems often use bounded retries
+    DefaultErrorHandler kafkaErrorHandler() {
+        return new DefaultErrorHandler(new FixedBackOff(2000L, FixedBackOff.UNLIMITED_ATTEMPTS));
+    }
 }
 
-//This will make topic for us

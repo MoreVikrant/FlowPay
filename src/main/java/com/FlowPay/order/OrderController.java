@@ -19,8 +19,6 @@ public class OrderController {
         this.merchants = merchants;
     }
 
- /*  Your service checks that the order belongs to the authenticated merchant.
-     thats why we have used the Api keys in every API                               */
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)

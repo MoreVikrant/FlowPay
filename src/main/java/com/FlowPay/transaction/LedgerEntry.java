@@ -14,17 +14,16 @@ public class LedgerEntry  extends BaseEntity {
     public String merchantId;
 
     @Column(nullable = false,length=48)
-    public String referenceId;   /// reference to the payment such as pay_102
+    public String referenceId;
 
     @Column(nullable=false,length=20)
-    public String type;  // which type
+    public String type;
 
     @Column(nullable=false)
-    public long amount; // change:
+    public long amount;
 
     @Column(nullable=false)
-    public long balanceAfter; //  records the balance immediately after each entry
-    // thats why its balance after
+    public long balanceAfter;
 
 
 

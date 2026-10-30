@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="refunds",   // enforces the uniqueness along the columns
+@Table(name="refunds",
         uniqueConstraints = @UniqueConstraint(columnNames = {"idempotencyKey","merchantId"}))
 public class Refund  extends BaseEntity {
 
@@ -21,9 +21,9 @@ public class Refund  extends BaseEntity {
     public String idempotencyKey;
 
     @Column(nullable = false)
-    public long amount;            // refund amount here
+    public long amount;
 
     @Column(nullable = false,length=20)
-    public String status = "SUCCESS";  // we have just hardcoded this because we are stimulating the step
+    public String status = "SUCCESS";
 
 }

@@ -13,11 +13,10 @@ public interface EventRepository extends JpaRepository<Event,String> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select e from Event e where e.id =:id")
-    Optional<Event> lockById(@Param("id") String id);       // we are locking an event
-     // database-level write lock for the selected row.
+    Optional<Event> lockById(@Param("id") String id);
 
     List<Event> findTop50ByPublishedAtIsNullOrderByCreatedAtAsc();
-          // from the date of the published
+
 
 }
 

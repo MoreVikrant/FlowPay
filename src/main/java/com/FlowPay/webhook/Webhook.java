@@ -9,13 +9,13 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "webhooks")
-public class Webhook extends BaseEntity { /// webhook is FlowPay calling the merchant’s server when something happens.
+public class Webhook extends BaseEntity {
 
     @Column(nullable = false,length = 48)
     public String merchantId;
 
     @Column(nullable = false,length = 48,unique = true)
-    public String eventId;   // event id for the event that merchant will have
+    public String eventId;
 
     @Column(length = 500)
     public String url;

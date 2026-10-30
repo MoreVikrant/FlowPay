@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RefundService {  // service  created for business logic 
+public class RefundService {
 
     private final RefundRepository repo;
     private final MerchantService merchants;
     private final PaymentService payments;
-    private final EventService events; /// yet to be created fully 
+    private final EventService events;
     private final LedgerService ledger;
 
     public RefundService(RefundRepository repo, MerchantService merchants, PaymentService payments, EventService events, LedgerService ledger) {
@@ -36,8 +36,8 @@ public class RefundService {  // service  created for business logic
     public Refund create(String m, String key, RefundDtos.Create request){
         Idempotency.validate(key);
         Merchant merchant = merchants.lock(m);
-        Refund old = repo.findByMerchantIdAndIdempotencyKey(m,key).orElse(null); // checking for existing refund
-        if(old!=null){                                     // same key but different amount
+        Refund old = repo.findByMerchantIdAndIdempotencyKey(m,key).orElse(null);
+        if(old!=null){
             if(!old.paymentId.equals(request.paymentId()) || old.amount !=request.amount()){
                 throw ApiException.conflict("Idempotency key reused with different refund");
             }
@@ -47,7 +47,7 @@ public class RefundService {  // service  created for business logic
          Payment p = payments.get(m,request.paymentId());
         if(!p.status.equals("SUCCESS")){
             throw ApiException.bad("Only success payment can be refunded");
-        } // If the payment is pending, failed, or otherwise not successful, the service rejects the refund.
+        }
 
         if(request.amount()<1 || request.amount()>p.amount-p.refunded){
             throw ApiException.conflict("Refund Exceeds Remaining payment amount");
@@ -68,9 +68,8 @@ public class RefundService {  // service  created for business logic
         r.idempotencyKey=key;
         r.amount=request.amount();
         p.refunded=after;
-        //  here in our code we are only Book Keeping in real razorpay gateway there is call to the bank that return the 400 to this customer
         repo.save(r);
-        ledger.record(merchant,r.id,"REFUND",-debit); // This is where the Refund package connects directly to your financial ledger.
+        ledger.record(merchant,r.id,"REFUND",-debit);
         // event.create
         return r;
     }

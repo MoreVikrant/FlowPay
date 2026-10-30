@@ -25,10 +25,10 @@ public class MerchantService {
         this.allowedHosts = Set.of(hosts.split(","));
     }
 
-    // if we are giving the Api key then we have to make the hash right ?
+
     public static String hash(String value){
 
-        try{ // we will make the hash like this
+        try{
             return HexFormat.of()
                     .formatHex(MessageDigest.getInstance("SHA-256")
                             .digest(value.getBytes(StandardCharsets.UTF_8)));
@@ -39,7 +39,7 @@ public class MerchantService {
         }
     }
 
-    @Transactional // because entry in the database
+    @Transactional
     public MerchantDtos.Registered register(MerchantDtos.Register r){
         Merchant m = new Merchant();
         m.id=Ids.next("mer");
@@ -52,7 +52,7 @@ public class MerchantService {
         return new MerchantDtos.Registered(m, key, m.webhookSecret);
     }
 
-    public Merchant authenticate(String key){          // we are authenticating the key
+    public Merchant authenticate(String key){
         if(key == null || key.isBlank()){
             throw new ApiException(HttpStatus.UNAUTHORIZED,"A valid X-Api-key is required");
         }else{
@@ -77,13 +77,13 @@ public class MerchantService {
 
     }
 
-    // if i am updating the merchant info or entering the details then we will check the validation
-    public void validate(String value){  //checks whether the caller has supplied a valid API key.
+
+    public void validate(String value){
 
         if(value == null || value.isBlank()) return ;
 
        try {
-            URI u = URI.create(value);   // this is form to create the url and without this can not validate the url
+            URI u = URI.create(value);
             if (!Set.of("http", "https").contains(u.getScheme())
                     || !allowedHosts.contains(u.getHost())
                     || u.getUserInfo() != null
@@ -92,7 +92,7 @@ public class MerchantService {
                 throw new IllegalStateException();
             }
         }
-        catch(Exception e){                                                  // written in application.properties
+        catch(Exception e){
            throw  ApiException.bad("Webhook url must be in HTTP(s) and host in Webhook_hosts");
         }
 

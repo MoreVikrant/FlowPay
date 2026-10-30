@@ -22,14 +22,13 @@ public class Payment extends BaseEntity {
     public String orderId;
 
     @Column(nullable = false,length = 100)
-    public String idempotencyKey;  //Helps prevent duplicate payment creation
+    public String idempotencyKey;
 
     @Column(nullable = false,length = 20)
-    public String method;        // by upi or card
+    public String method;
 
     @Column(nullable = false,length = 30)
-    public String scenario;  // In real life this does not exist but we are taking this for mock
-    // that failed scenario , passed scenario we will mock by UI
+    public String scenario;
 
     @Column(nullable = false,length = 20)
     public String status ="CREATED";
@@ -38,11 +37,11 @@ public class Payment extends BaseEntity {
     public long amount;
 
     @Column(nullable = false)
-    public long fee;   // like the commission on the transaction
+    public long fee;
 
     @Column(nullable = false)
     public long refunded;
 
-    public Instant resolvedAt;    // just for keeping the ledger
+    public Instant resolvedAt;
 
 }

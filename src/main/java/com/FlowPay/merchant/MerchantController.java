@@ -21,12 +21,12 @@ public class MerchantController {
         return service.register(r);
     }
 
-    @GetMapping("/me") // Get the authenticated merchant
+    @GetMapping("/me")
     public Merchant me(@RequestHeader("X-API-Key") String key){
         return service.authenticate(key);
     }
 
-    @PutMapping("/me") // Update merchant details
+    @PutMapping("/me")
    public Merchant update( @RequestHeader("X-API-Key") String key, @Valid  @RequestBody MerchantDtos.Update r){
         return service.update(service.authenticate(key).id,r);
    }

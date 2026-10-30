@@ -10,10 +10,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
-public class TransactionService { //Retrieves and filters payment and ledger history
-    // we are not making the Controller
-    // Ledger is record which run by transaction that's why we created this ;
-
+public class TransactionService {
     private final LedgerEntryRepository ledger;
     private final PaymentService payments;
 

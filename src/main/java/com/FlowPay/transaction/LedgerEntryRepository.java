@@ -12,13 +12,12 @@ import java.util.Optional;
 
 public interface LedgerEntryRepository extends JpaRepository<LedgerEntry,String> {
 
- // want a database lock for that particular transaction
+
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select e from LedgerEntry e where e.id=:id")
     Optional<LedgerEntry> lockById(@Param("id") String id);
 
 
-    // Give  the entries by the merchant id and sorted by the latest one that are created
     List<LedgerEntry>  findByMerchantIdOrderByCreatedAtDesc(String Key);
 
 

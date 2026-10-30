@@ -6,17 +6,17 @@ import jakarta.validation.constraints.Size;
 
 public class MerchantDtos {
 
-    public record Register( // data expected when registering a merchant.
+    public record Register(
             @NotBlank @Size(max=100) String name, @NotBlank @Email @Size(max=100) String email){}
 
-    public record Update(   // which details a merchant can update
+    public record Update(
             @NotBlank @Size(max=100) String name,
             @NotBlank @Size(max=100)String email,
            @Size(max=500)String webhookUrl
     ){}
 
-    public record Registered( // response your service returns after registration.
+    public record Registered(
             Merchant merchant,String apiKey, String webhookSecret
-                                                  // used for signing the webhooks to make them secure
+
     ){}
 }

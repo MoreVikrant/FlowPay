@@ -38,13 +38,11 @@ public class OrderService {
 
         PaymentOrder saved = repo.save(p);
 
-        // same transaction: the order and its event are saved together or not at all
         events.create(merchantId, "order.created", saved.id, saved.amount);
 
         return saved;
     }
 
-    // now i want the details of the orders thats why we need the merchant id and the product id which  we ger from the base entity
   public PaymentOrder get(String merchantId,String id){
 
          PaymentOrder p = repo.findById(id).orElseThrow(ApiException::missing);
@@ -52,7 +50,7 @@ public class OrderService {
          return p;
   }
 
-  // List of all the orders from this merchantId
+
   public List<PaymentOrder> list(String merchantId){
         return repo.findByMerchantIdOrderByCreatedAtDesc(merchantId);
   }

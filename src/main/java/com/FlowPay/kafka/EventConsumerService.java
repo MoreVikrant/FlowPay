@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 
 @Service
-public class EventConsumerService {  // Processes an event and creates a webhook record
+public class EventConsumerService {
 
     private final EventRepository events;
     private final MerchantRepository merchants;
-    private final WebhookRepository webHooks; // // developing the package not done yet just repo and entity done
+    private final WebhookRepository webHooks;
 
     public EventConsumerService(EventRepository events, MerchantRepository merchants, WebhookRepository webHooks) {
         this.events = events ;
@@ -27,10 +27,10 @@ public class EventConsumerService {  // Processes an event and creates a webhook
     public void consume(String id){
 
         Event e =events.lockById(id).orElseThrow();
-        if(e.consumedAt != null) return;   //if already consumed then return
-        Merchant m = merchants.findById(e.merchantId).orElseThrow();  // retrieve the merchant here
+        if(e.consumedAt != null) return;
+        Merchant m = merchants.findById(e.merchantId).orElseThrow();
 
-        Webhook w = new Webhook();        // create the webHook record
+        Webhook w = new Webhook();
         w.id = Ids.next("wh");
         w.eventId=e.id;
         w.merchantId=m.id;

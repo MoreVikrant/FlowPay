@@ -23,7 +23,7 @@ public class RefundController {
     @ResponseStatus(HttpStatus.CREATED)
     public Refund create(
             @RequestHeader("X-Api-Key") String key,
-            @RequestHeader("Idempotency-Key") String ik,        // Identifies the logically repeated request
+            @RequestHeader("Idempotency-Key") String ik,
              @Valid @RequestBody RefundDtos.Create r
     ){
         return service.create(merchants.authenticate(key).id,ik,r);
