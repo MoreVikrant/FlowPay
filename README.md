@@ -1,4 +1,4 @@
-# FlowPay — Full-Stack Payment Gateway Simulation
+# FlowPay — Full-Stack Payment Gateway
 
 <p align="center">
   <strong>A full-stack payment gateway simulation built with Spring Boot, React, MySQL, Kafka and Docker.</strong>
@@ -11,7 +11,7 @@
   <a href="#architecture">Architecture</a>
 </p>
 
-> **Project status:** Local development / demonstration project. FlowPay simulates payment processing through a mock bank; it does not connect to real banking networks, move real money, or process live card credentials.
+> **Project status:**  FlowPay simulates payment processing through a mock bank; it does not connect to real banking networks, move real money, or process live card credentials.
 
 ---
 
@@ -72,33 +72,6 @@ The backend is built with **Java 21 and Spring Boot** and exposes REST APIs secu
 ---
 
 # Architecture
-
-## High-Level Design (HLD)
-
-```mermaid
-flowchart TB
-    M[Merchant / User] --> UI[React Merchant Dashboard\nNginx container]
-    UI -->|REST + X-Api-Key| API[Spring Boot REST API]
-    API --> DB[(MySQL 8.0)]
-    API --> BANK[Mock Bank Simulator]
-    API -->|Persist domain event in same DB transaction| OUTBOX[(Events / Outbox table)]
-    OUTBOX -->|Scheduled publisher| K[Apache Kafka\nFlowPay.events]
-    K -->|Event ID| CONSUMER[Kafka Event Consumer]
-    CONSUMER --> WH[(Webhook delivery records)]
-    WH -->|Scheduled delivery + HMAC signature| MERCHANT[Merchant Webhook Endpoint]
-    JOBS[Scheduled Jobs] --> BANK
-    JOBS --> DB
-    JOBS --> WH
-```
-
-**Request and event flow:**
-
-1. A merchant interacts with the React dashboard or calls the REST API.
-2. The backend authenticates the merchant using its API key and scopes data access to that merchant.
-3. Business operations are persisted in MySQL. When an operation emits a domain event, the event is stored in the `events` table as part of the business transaction.
-4. A scheduled outbox publisher sends the event ID to Kafka.
-5. The Kafka consumer loads the persisted event and creates a webhook-delivery record for the merchant.
-6. A scheduled webhook worker sends the event payload to the configured merchant endpoint and signs the payload with HMAC-SHA256.
 
 ## Low-Level Design (LLD)
 
