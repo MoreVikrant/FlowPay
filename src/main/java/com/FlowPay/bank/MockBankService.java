@@ -19,7 +19,7 @@ public class MockBankService {
         {
             case "SUCCESS" -> new Result("SUCCESS",null); // Immediate success
             case "FAILURE" -> new Result("FAILED",null); // Immediate failure
-            case "DELAYED" -> new Result("PENDING",Instant.now().plusSeconds(8));
+            case "DELAYED_SUCCESS" -> new Result("PENDING", Instant.now().plusSeconds(8));
             case "TIMEOUT" -> new Result("PENDING",Instant.now().plusSeconds(20));
             default -> throw new IllegalArgumentException("Unknown Simulation Scenario");
         };

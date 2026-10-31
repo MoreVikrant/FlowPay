@@ -104,7 +104,9 @@ You don't want the retry to create another payment.     */
 
             ledger.record(m,p.id,"PAYMENT",p.amount-p.fee);
 
-        }else if(status.equals("FAILURE")){
+            event.create(m.id, "payment.success", p.id, p.amount);
+
+        }else if(status.equals("FAILED")){
             event.create(m.id, "payment.failed", p.id, p.amount);
         }
     }

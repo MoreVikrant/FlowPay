@@ -69,8 +69,8 @@ public class RefundService {
         r.amount=request.amount();
         p.refunded=after;
         repo.save(r);
-        ledger.record(merchant,r.id,"REFUND",-debit);
-        // event.create
+        ledger.record(merchant, r.id, "REFUND", -debit);
+        events.create(m, "refund.created", r.id, r.amount);
         return r;
     }
 
